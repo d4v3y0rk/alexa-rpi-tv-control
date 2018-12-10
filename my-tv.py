@@ -53,8 +53,14 @@ def session_ended():
 #onOffCommand : on | off
 @ask.intent('PowerIntent')
 def power(onOffCommand):
-    os.system("irsend --count=2 SEND_ONCE %s KEY_POWER KEY_POWER" % device)
+    os.system("irsend --count=1 SEND_ONCE %s KEY_POWER" % device)
     text = render_template('power_on') if onOffCommand == "on" else render_template('power_off')
+    return statement(text).simple_card('Status', text)
+
+@ask.intent('netflix')
+def netflix():
+    os.system("irsend --count=1 SEND_ONCE %s KEY_PROGRAM" % device)
+    text = render_template('netflix')
     return statement(text).simple_card('Status', text)
 
 #volumeCommand : increase | decrease | mute |unmute
