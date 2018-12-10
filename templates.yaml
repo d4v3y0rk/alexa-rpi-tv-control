@@ -29,3 +29,5 @@ fallback_message: Sorry. I did not understand your tv command
 clarify_volume_command: Do you want to increase, decrease or mute the volume
 
 clarify_channel: Which channel number would you like to see
+
+netflix: opening netflix
