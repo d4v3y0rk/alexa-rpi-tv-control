@@ -1,18 +1,3 @@
-'''
-Alexa Custom Skill to enable voice control of your tv using a Raspberry Pi
-    - Uses flask-ask and irsend on raspberry pi
-
-Usage:
-Alexa, tell my tv to turn on/off
-Alexa, tell my tv to increase/decrease/mute the volume
-Alexa, tell my tv to switch to channel 95
-Alexa, tell my tv to channel surf up/down
-
-Created by: Lee Assam
-www.powerlearningacademy.com
-
-Last Modified: 2018-07-20
-'''
 from flask import Flask, render_template
 from flask_ask import Ask, statement, question, request, session, convert_errors
 import os, time
@@ -30,7 +15,7 @@ app = Flask(__name__)
 ask = Ask(app, '/')
 
 #name of your TV
-device = "sony"
+device = "panasonic"
 
 @ask.launch
 def start_skill():
@@ -79,7 +64,7 @@ def volume(volumeCommand):
             sendRepeatCommand("KEY_VOLUMEDOWN", 3)
             text = render_template('volume_decrease')
         elif volumeCommand == "mute" or volumeCommand == "unmute":
-            sendRepeatCommand("KEY_MUTE", 0.1)
+            os.system("irsend --count=1 SEND_ONCE %s KEY_MUTE" % device)
             text = render_template('volume_mute') if volumeCommand == "mute" else render_template('volume_unmute')
         else:
             #recevied a command that we did not expect
